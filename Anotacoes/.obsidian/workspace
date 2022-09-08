@@ -1,0 +1,139 @@
+{
+  "main": {
+    "id": "2f1aecd419430134",
+    "type": "split",
+    "children": [
+      {
+        "id": "433d513546030d62",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Lógica Sistema de Testes EVI/Cadastro do Grupo Economico.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "10f949724d87e6b5",
+    "type": "split",
+    "children": [
+      {
+        "id": "bbd8f7018807dd8a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3dd161653292d084",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "ecb763952551737d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "e97c97db14235d10",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a3685e9f07d124d6",
+    "type": "split",
+    "children": [
+      {
+        "id": "a14a61016e718862",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5146190c12f1aec7",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Lógica Sistema de Testes EVI/Cadastro do Grupo Economico.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "1f601cc2cbadbec7",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Lógica Sistema de Testes EVI/Cadastro do Grupo Economico.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "53ba6f06abd058b6",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "73b2befe79707214",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Lógica Sistema de Testes EVI/Cadastro do Grupo Economico.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "433d513546030d62",
+  "lastOpenFiles": [
+    "Templates/Code Block.md",
+    "Templates/FlowChart.md",
+    "Lógica Sistema de Testes EVI/Cadastro do Grupo Economico.md",
+    "Elastic/Elasticsearch.md",
+    "Elastic/Exercícios Elastic.md"
+  ]
+}

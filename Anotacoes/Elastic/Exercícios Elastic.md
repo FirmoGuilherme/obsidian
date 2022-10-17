@@ -1,201 +1,310 @@
-16/06/2022-17:01
-**Status:** #🌲 
-**Tags:** [[Elasticsearch]]
+# Link para os desafios
+## [Exercícios Elastic](https://georgebridgeman.com/exercises/olympic-data/olympics-01/)
+
+## Desafio 01 e 02(Configurar o Elastic e Kibana):
+### Instalação Docker:
+#### Precisamos de um arquivo "docker-compose.yml" com a seguinte configuração:
+``` python
+version: '3'
+services:
+    elastic:
+        image: elasticsearch:7.17.3
+        volumes:
+            - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+        ports:
+            - "9200:9200"
+    kibana:
+        image: kibana:7.17.3
+        volumes:
+            - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+        ports:
+            - "5601:5601"
+```
+#### Logo após precisamos de um arquivo "elasticsearch.yml" com a seguinte configuração: 
+``` python
+# ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please consult the documentation for further information on configuration options:
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
+#
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+cluster.name: Cluster-Firmo
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+node.name: Master-Node
+#node.master: true
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+#
+# ----------------------------------- Paths ------------------------------------
+#
+# Path to directory where to store the data (separate multiple locations by comma):
+#
+# path.data: /var/lib/elasticsearch
+#
+# Path to log files:
+#
+# path.logs: /var/log/elasticsearch
+# path.repo: /var/tmp/repo
+#
+# ----------------------------------- Memory -----------------------------------
+#
+# Lock the memory on startup:
+#
+# bootstrap.memory_lock: true
+#
+# Make sure that the heap size is set to about half the memory available
+# on the system and that the owner of the process is allowed to use this
+# limit.
+#
+# Elasticsearch performs poorly when the system is swapping the memory.
+#
+# ---------------------------------- Network -----------------------------------
+#
+# By default Elasticsearch is only accessible on localhost. Set a different
+# address here to expose this node on the network:
+#
+network.host: 0.0.0.0
+#
+# By default Elasticsearch listens for HTTP traffic on the first free port it
+# finds starting at 9200. Set a specific HTTP port here:
+#
+http.port: 9200
+#
+# For more information, consult the network module documentation.
+#
+# --------------------------------- Discovery ----------------------------------
+#
+discovery.type: single-node
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#
+#discovery.seed_hosts: ["10.0.3.2:9300", "10.0.3.2:9201"]
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+#cluster.initial_master_nodes: ["Master-Node"]
+#
+# For more information, consult the discovery and cluster formation module documentation.
+#
+# ---------------------------------- Various -----------------------------------
+#
+# Require explicit names when deleting indices:
+#
+#action.destructive_requires_name: true
+#
+# ---------------------------------- Security ----------------------------------
+#
+#                                 *** WARNING ***
+#
+# Elasticsearch security features are not enabled by default.
+# These features are free, but require configuration changes to enable them.
+# This means that users don’t have to provide credentials and can get full access
+# to the cluster. Network connections are also not encrypted.
+#
+# To protect your data, we strongly encourage you to enable the Elasticsearch security features. 
+# Refer to the following documentation for instructions.
+#
+# https://www.elastic.co/guide/en/elasticsearch/reference/7.16/configuring-stack-security.html
+# xpack.security.enabled: true
+# xpack.security.enrollment.enabled: true
+# xpack.security.authc.api_key.enabled: true
+# xpack.security.transport.ssl.enabled: true
+```
+
+#### Logo após precisamos de um arquivo "kibana.yml" com a seguinte configuração: 
+``` python
+# For more configuration options see the configuration guide for Kibana in
+# https://www.elastic.co/guide/index.html
+
+# =================== System: Kibana Server ===================
+# Kibana is served by a back end server. This setting specifies the port to use.
+server.port: 5601
+
+# Specifies the address to which the Kibana server will bind. IP addresses and host names are both valid values.
+# The default is 'localhost', which usually means remote machines will not be able to connect.
+# To allow connections from remote users, set this parameter to a non-loopback address.
+server.host: "0.0.0.0"
+
+# Enables you to specify a path to mount Kibana at if you are running behind a proxy.
+# Use the `server.rewriteBasePath` setting to tell Kibana if it should remove the basePath
+# from requests it receives, and to prevent a deprecation warning at startup.
+# This setting cannot end in a slash.
+#server.basePath: ""
+
+# Specifies whether Kibana should rewrite requests that are prefixed with
+# `server.basePath` or require that they are rewritten by your reverse proxy.
+# Defaults to `false`.
+#server.rewriteBasePath: false
+
+# Specifies the public URL at which Kibana is available for end users. If
+# `server.basePath` is configured this URL should end with the same basePath.
+# server.publicBaseUrl: "https://kibana2.hoeltgebaum.com"
+
+# The maximum payload size in bytes for incoming server requests.
+#server.maxPayload: 1048576
+
+# The Kibana server's name. This is used for display purposes.
+server.name: "Escolha o nome"
+
+# =================== System: Kibana Server (Optional) ===================
+# Enables SSL and paths to the PEM-format SSL certificate and SSL key files, respectively.
+# These settings enable SSL for outgoing requests from the Kibana server to the browser.
+# server.ssl.enabled: true
+# server.ssl.certificate: /etc/certificates/cert.crt
+# server.ssl.key: /etc/certificates/cert.key
+
+# =================== System: Elasticsearch ===================
+# The URLs of the Elasticsearch instances to use for all your queries.
+elasticsearch.hosts: ["http://elastic:9200"]
+
+# If your Elasticsearch is protected with basic authentication, these settings provide
+# the username and password that the Kibana server uses to perform maintenance on the Kibana
+# index at startup. Your Kibana users still need to authenticate with Elasticsearch, which
+# is proxied through the Kibana server.
+# elasticsearch.username: "kibana_system"
+# elasticsearch.password: "9sDAD5T9q8bU36H2jdaP"
 
 
-# GPU Dataset
+# xpack.security.enabled: true
+# xpack.security.encryptionKey: "tG0HPMzDMdwXRbhP4i1r7k9vvaqfMLAR"
 
-## 1 - Sort Aggs
+# Kibana can also authenticate to Elasticsearch via "service account tokens".
+# Service account tokens are Bearer style tokens that replace the traditional username/password based configuration.
+# Use this token instead of a username/password.
+# elasticsearch.serviceAccountToken: "my_token"
 
-#### Question
-Create a query that returns the 3 categories with the highest average TDP. Filter <span style="color:red">out</span> the "Unknown" category.
+# Time in milliseconds to wait for Elasticsearch to respond to pings. Defaults to the value of
+# the elasticsearch.requestTimeout setting.
+#elasticsearch.pingTimeout: 1500
 
-#### Hint
-Aggregations can be sorted via the "bucket_sort" aggs
+# Time in milliseconds to wait for responses from the back end or Elasticsearch. This value
+# must be a positive integer.
+#elasticsearch.requestTimeout: 30000
 
-#### Answer
-~~~JSON
-GET gpu_benchmark/_search
+# The maximum number of sockets that can be used for communications with elasticsearch.
+# Defaults to `Infinity`.
+#elasticsearch.maxSockets: 1024
+
+# Specifies whether Kibana should use compression for communications with elasticsearch
+# Defaults to `false`.
+#elasticsearch.compression: false
+
+# List of Kibana client-side headers to send to Elasticsearch. To send *no* client-side
+# headers, set this value to [] (an empty list).
+#elasticsearch.requestHeadersWhitelist: [ authorization ]
+
+# Header names and values that are sent to Elasticsearch. Any custom headers cannot be overwritten
+# by client-side headers, regardless of the elasticsearch.requestHeadersWhitelist configuration.
+#elasticsearch.customHeaders: {}
+
+# Time in milliseconds for Elasticsearch to wait for responses from shards. Set to 0 to disable.
+#elasticsearch.shardTimeout: 30000
+
+# =================== System: Elasticsearch (Optional) ===================
+# These files are used to verify the identity of Kibana to Elasticsearch and are required when
+# xpack.security.http.ssl.client_authentication in Elasticsearch is set to required.
+#elasticsearch.ssl.certificate: /path/to/your/client.crt
+#elasticsearch.ssl.key: /path/to/your/client.key
+
+# Enables you to specify a path to the PEM file for the certificate
+# authority for your Elasticsearch instance.
+#elasticsearch.ssl.certificateAuthorities: [ "/path/to/your/CA.pem" ]
+```
+
+#### Com isso, é só usar o comando "docker-compose up" e acessar o [http://localhost:5601/](http://localhost:5601/) ou a porta escolhida na configuração.
+
+## Desafio 03 (Adicionar dados)
+### Download the dataset [from here](https://s3.amazonaws.com/elasticsearch-exercises.whatgeorgemade/events.ndjson.gz) and use Kibana’s Data Visualizer to upload the file into a new index called olympec-events.
+#### Esse desafio consiste em fazer o dowload no site a cima e seguir os seguintes passos:
+##### 1.  Ao fazer o dowload o arquivo vai estar compactado, ou seja, devemos descompactar o arquivo.
+##### 2. Ao descompactar o arquivo precisamos adicionar ele no Data Visualizer do Kibana do seguinte modo:
+###### Entre na barra de pesquisa do elastic e digite "Data Visualizer" e clique no "Machine Learning / Data Visualizer": ![[Pasted image 20221017110337.png]]
+###### Ao entrar na tela você irá importar os dados clicando no "Select File" do "Import data":
+![[Pasted image 20221017110257.png]]
+
+###### Logo após você irá importar o arquivo desejado, arrastando ou selecionando ele:
+![[Pasted image 20221017110529.png]]
+###### Após carregar, é só clicar no "Import" e aguardar.
+![[Pasted image 20221017110640.png]]
+###### Ao finalizar devemos colocar o index name, nesse caso será "index_name" e depois é só clicar para importar:
+![[Pasted image 20221017110747.png]]
+###### E pronto, o arquivo foi importado:
+![[Pasted image 20221017110850.png]]
+
+## Desafio 06(Alterar o status do cluster para green)
+### Change the cluster or index settings as required to get the cluster to a green status.
+#### Para resolver este problema é bem simples. Como temos apenas 1 node, não adianta nada termos réplicas do mesmo, já que ele irá "salvar" nele mesmo. Nesse caso não precisamos ter nenhuma réplica, para fazermos isso precisamos de um simples POST:
+``` JSON
+PUT _settings
 {
-  "size": 0, 
-  "aggs": {
-    "category": {
-      "terms": {
-        "field": "category.keyword",
-        "size": 3
-      },
-      "aggs": {
-        "tdp": {
-          "avg": {
-            "field": "tdp"
-          }
-        },
-        "sorted": {
-          "bucket_sort": {
-            "sort": [
-              {
-                "tdp": {
-                  "order": "desc"
-                }
-              }
-            ]
-          }
-        }
-      }
+    "index" : {
+        "number_of_replicas" : 0
     }
-  },
-  "query": {
-    "bool": {
-      "must_not": [
-        {
-          "match": {
-            "category.keyword": "Unknown"
-          }
-        }
-      ]
-    }
-  }
 }
-~~~
+```
+#### Com isso esse desafio é resolvido e o status do cluster se torna green.
 
-
-## 3 - Ingest Pipeline / Reindex
-
-#### Question
-Use reindex and ingest pipelines to add the field "family" to all docs.
-This field should contain the first word of the "gpu_name" field.
-Also apply this as the default pipeline for this index.
-
-#### Hint
-Use the "\s" regex to match all spaces.
-
-#### Answer
-##### Creating the pipeline
-~~~JSON
-PUT _ingest/pipeline/add_gpu_family
+## Desafio 07
+### Look at how Elasticsearch has applied very general-purpose mappings to the data. Why has it chosen to use a `keyword` type for the `Age` field? Find **all** unique values for the `Age` field; there are less than 100 unique values for the `Age` field.
+#### Suponha que você tem mais de 100 nomes cadastrado no seu Elastic, inclusive nomes repetidos diversas vezes, com isso você quer pegar todos os nomes e a quantidade deles. Por exemplo: existem 30 Lucas no banco mas e quero que retorne:
+``` JSON
 {
-  "description": "Adds family field",
-  "processors": [
-    {
-      "split": {
-        "field": "gpu_name",
-        "separator": "\\s",
-        "target_field": "family_non_split"
-      }
-    },
-    {
-      "set": {
-        "field": "family",
-        "value": "{{{family_non_split.0}}}"
-      }
-    },
-    {
-      "remove": {
-        "field": "family_non_split"
-      }
-    }
-  ]
+ "name": "Lucas"
+ "doc_count": 30 
 }
-~~~
-
-##### Reindex to a backup index
-~~~JSON
-POST _reindex
+```
+#### Que seria o tanto de documentos que tem o nome Lucas.
+#### Para retornar isso precisamos de uma query bem simples. Como ele pede a Idade o nosso campo para pesquisa será o AGE e a forma que iremos utilizar, será com o terms do agregattions que agrega todos os diferentes campos pelo valor deles.
+``` JSON
+GET olympic-events/_search
 {
-  "dest": {
-    "index": "gpu_benchmark-bkp",
-    "pipeline": "add_gpu_family"
-  },
-  "source": {
-    "index": "gpu_benchmark"
-  }
-}
-~~~
-
-##### Reindex back to original index
-~~~JSON
-POST _reindex
-{
-  "dest": {
-    "index": "gpu_benchmark",
-    "pipeline": "add_gpu_family"
-  },
-  "source": {
-    "index": "gpu_benchmark-bkp"
-  }
-}
-~~~
-
-##### Add default pipeline
-~~~JSON
-PUT gpu_benchmark/_settings
-{
-  "default_pipeline": "add_gpu_family"
-}
-~~~
-
-##### Remove backup index
-~~~JSON
-DELETE gpu_benchmark-bkp
-~~~
-
-
-## 4 - Aggs
-
-#### Question
-For each gpu family, return the amount of categories.
-Filter <span style="color:red">out</span> the "Unknown" category
-
-#### Hint
-Use the "cardinality" aggregator to return the amount of unique values
-
-#### Answer
-~~~JSON
-GET gpu_benchmark/_search
-{
-  "aggs": {
-    "family": {
-      "terms": {
-        "field": "family.keyword",
-        "size": 100
-      },
-      "aggs": {
-        "quantidade": {
-          "cardinality": {
-            "field": "category"
-          }
-        }
-      }
-    }
-  },
   "size": 0,
-  "query": {
-    "bool": {
-      "must_not": [
-        {
-          "match": {
-            "category": "Unknown"
-          }
-        }
-      ]
+  "aggs": {
+    "Age": {
+      "terms": {
+        "field": "Age",
+        "size": 100
+      }
     }
   }
 }
-~~~
+```
 
+## Desafio 08 (Reindex)
+###  We will be deleting data in the next exercise; making a backup is always prudent. Without making any changes to the data, reindex the `olympic-events` index into a new index called `olympic-events-backup`.
+#### Para fazermos um reeindex é simples, primeiro precisamos passar qual é o index que queremos fazer o backup e para onde ele irá. No nosso caso o index será o olympic-events e o index para backup será  olympic-events-backup. Para fazermos isso precisamos da seguinte query:
+``` JSON
+POST _reindex
+{
+  "source": {
+    "index": "olympic-events"
+  },
+  "dest": {
+    "index": "olympic-events-backup"
+  }
+}
+```
 
-
-# [Olympic Events](https://georgebridgeman.com/exercises)
-
-## [Part 01](https://georgebridgeman.com/exercises/olympic-data/olympics-01/)
-
-### Exercise 09
-
-#### Question
-The `Height` and `Weight` fields suffer from the same problem as the `Age` field. Later exercises will require numeric-type queries for these fields so we want to exclude any document we can’t use in our analyses. In a single request, delete all documents from the `olympic-events` index that have a value of `NA` for either the `Age`, `Height` or `Weight` field.
-
-#### Answer
-~~~JSON
+## Desafio 09
+### The `Height` and `Weight` fields suffer from the same problem as the `Age` field. Later exercises will require numeric-type queries for these fields so we want to exclude any document we can’t use in our analyses. In a single request, delete all documents from the `olympic-events` index that have a value of `NA` for either the `Age`, `Height` or `Weight` field.
+#### Este desafio pede para que a gente exclua todos os "fields" que tenha valores = "NA". Para isso precisamos fazer um delete_by_query :
+``` JSON
 POST olympic-events/_delete_by_query
 {
   "query": {
@@ -211,1729 +320,38 @@ POST olympic-events/_delete_by_query
     }
   }
 }
-~~~
-
-
-### Exercise 10
-
-#### Question
-Notice how the `Games` field contains both the Olympic year and season. Create an ingest pipeline called `split_games` that will split this field into two new fields - `year` and `season` - and remove the original `Games` field.
-
-#### Hint
-- Use the "Ingest Node Pipelines" option inside "Stack Management" to create the pipeline via interface
-- The magic keyword "{{\_\_source.FIELD}" can be used to access document fields
-
-#### Answer
-~~~JSON
-PUT _ingest/pipeline/split_games
-{
-  "description": "Splits the games field into year and season fields",
-  "processors": [
-    {
-      "split": {
-        "field": "Games",
-        "separator": "\\s"
-      }
-    },
-    {
-      "set": {
-        "field": "year",
-        "value": "{{_source.Games.0}}"
-      }
-    },
-    {
-      "set": {
-        "field": "season",
-        "value": "{{_source.Games.1}}"
-      }
-    },
-    {
-      "remove": {
-        "field": "Games"
-      }
-    }
-  ]
-}
-~~~
-
-### Exercise 11
-
-#### Question
-Ensure your new pipeline is working correctly by simulating it with these values:
-
--   1998 Summer
--   2014 Winter
-
-#### Answer
-~~~JSON
-POST test/_doc/1?pipeline=split_games
-{
-  "Games": "1998 Summer"
-}
-
-POST test/_doc/1?pipeline=split_games
-{
-  "Games": "2014 Winter"
-}
-~~~
-
-#### Correct way to simulate pipelines
-~~~JSON
-POST /_ingest/pipeline/my-pipeline-id/_simulate
-{
-  "docs": [
-    {
-      "_index": "index",
-      "_id": "id",
-      "_source": {
-        "foo": "bar"
-      }
-    },
-    {
-      "_index": "index",
-      "_id": "id",
-      "_source": {
-        "foo": "rab"
-      }
-    }
-  ]
-}
-~~~
-
-
-### Exercise 12
-
-#### Answer
-~~~JSON
-PUT olympic-events-fixed
-{
-  "settings": {
-    "number_of_shards": 1,
-    "number_of_replicas": 0
-  },
-  "mappings": {
-    "properties": {
-      "athleteId": {
-        "type": "integer"
-      },
-      "age": {
-        "type": "short"
-      },
-      "height": {
-        "type": "short"
-      },
-      "weight": {
-        "type": "short"
-      },
-      "athleteName": {
-        "type": "text", 
-        "fields": {
-          "keyword": {
-            "type": "keyword"
-          }
-        }
-      },
-      "gender": {
-        "type": "keyword"
-      },
-      "team": {
-        "type": "keyword"
-      },
-      "noc": {
-        "type": "keyword"
-      },
-      "year": {
-        "type": "short"
-      },
-      "season": {
-        "type": "keyword"
-      },
-      "city": {
-        "type": "text",
-        "fields": {
-          "keyword": {
-            "type": "keyword"
-          }
-        }
-      },
-      "sport": {
-        "type": "keyword"
-      },
-      "event": {
-        "type": "text",
-        "fields": {
-          "keyword": {
-            "type": "keyword"
-          }
-        }
-      },
-      "medal": {
-        "type": "keyword"
-      }
-    }
-  }
-}
-~~~
-
-
-## [Part 02](https://georgebridgeman.com/exercises/olympic-data/olympics-02/)
-
-### Exercise 13
-
-#### Question
-Reindex the data in the `olympic-events` index into the new `olympic-events-fixed` index created in exercise 12 using the `split_games` pipeline created in exercise 10.
-
-#### Answer
-~~~JSON
-POST _reindex
-{
-  "source": {
-    "index": "olympic-events"
-  },
-  "dest": {
-    "index": "olympic-events-fixed",
-    "pipeline": "split_games"
-  }
-}
-~~~
-
-### Exercise 14
-
-#### Question
-Look at the mapping for the `olympic-events-fixed` index. Notice how Elasticsearch has created new fields. We created the mapping for this index with the same field names as before but we put all the field names in lowercase. Field names are case sensitive, so `Age` and `age` are different, distinct fields to Elasticsearch.
-
-Also notice that the new mapping uses `athleteId` instead of `ID`, `athleteName` instead of `Name` and `gender` instead of `Sex`.
-
-We’ll need to correct this by tearing down the new index and reindexing with an additional pipeline to use the correct field names. To save us constantly having to recreate the index with the right mappings, we can leverage index templates.
-
-Create an index template called `olympic-events` for new indices with a name beginning with `olympic-events-`. Use the mapping and settings we defined in exercise 12 and configure the mapping so Elasticsearch will throw an exception if a document contains a field not defined in the mapping.
-
-#### Answer
-~~~JSON
-{
-  "template": {
-    "settings": {
-      "index": {
-        "number_of_shards": "1",
-        "number_of_replicas": "0"
-      }
-    },
-    "mappings": {
-      "dynamic": "strict",
-      "dynamic_templates": [],
-      "properties": {
-        "age": {
-          "type": "short"
-        },
-        "athleteId": {
-          "type": "integer"
-        },
-        "athleteName": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword"
-            }
-          }
-        },
-        "city": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword"
-            }
-          }
-        },
-        "event": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword"
-            }
-          }
-        },
-        "gender": {
-          "type": "keyword"
-        },
-        "height": {
-          "type": "short"
-        },
-        "medal": {
-          "type": "keyword"
-        },
-        "noc": {
-          "type": "keyword"
-        },
-        "season": {
-          "type": "keyword"
-        },
-        "sport": {
-          "type": "keyword"
-        },
-        "team": {
-          "type": "keyword"
-        },
-        "weight": {
-          "type": "short"
-        },
-        "year": {
-          "type": "short"
-        }
-      }
-    },
-    "aliases": {}
-  }
-}
-~~~
-
-### Exercise 15
-
-#### Question
-Create a new ingest pipeline called `reconcile_fields` to replace all fields with their correct field names (except for the `Games` field), then also execute the `split_games` pipeline.
-
-
-#### Answer
-~~~JSON
-PUT _ingest/pipeline/reconcile_fields
-{
-  "description": "Changes field names for the olympic_events import",
-  "processors": [
-    {
-      "rename": {
-        "field": "Age",
-        "target_field": "age"
-      }
-    },
-    {
-      "rename": {
-        "field": "ID",
-        "target_field": "athleteId"
-      }
-    },
-    {
-      "rename": {
-        "field": "Name",
-        "target_field": "athleteName"
-      }
-    },
-    {
-      "rename": {
-        "field": "Sex",
-        "target_field": "gender"
-      }
-    },
-    {
-      "rename": {
-        "field": "Height",
-        "target_field": "height"
-      }
-    },
-    {
-      "rename": {
-        "field": "Weight",
-        "target_field": "weight"
-      }
-    },
-    {
-      "rename": {
-        "field": "City",
-        "target_field": "city"
-      }
-    },
-    {
-      "rename": {
-        "field": "Medal",
-        "target_field": "medal"
-      }
-    },
-    {
-      "rename": {
-        "field": "NOC",
-        "target_field": "noc"
-      }
-    },
-    {
-      "rename": {
-        "field": "Sport",
-        "target_field": "sport"
-      }
-    },
-    {
-      "rename": {
-        "field": "Team",
-        "target_field": "team"
-      }
-    },
-    {
-      "pipeline": {
-        "name": "split_games"
-      }
-    }
-  ]
-}
-~~~
-
-### Exercise 16
-
-#### Question
-Test your new pipeline with the following document:
-~~~JSON
-{
-  "NOC": "ARG",
-  "Sex": "M",
-  "City": "Los Angeles",
-  "Weight": "98",
-  "Name": "Ernesto Arturo Alas",
-  "Sport": "Shooting",
-  "Games": "1984 Summer",
-  "Event": "Shooting Men's Free Pistol, 50 metres",
-  "Height": "186",
-  "Team": "Argentina",
-  "ID": 2224,
-  "Medal": "NA",
-  "Age": "54"
-}
-~~~
-
-~~~JSON
-POST /_ingest/pipeline/my-pipeline-id/_simulate
-{
-  "docs": [
-    {
-      "_index": "index",
-      "_id": "id",
-      "_source": {
-        "foo": "bar"
-      }
-    },
-    {
-      "_index": "index",
-      "_id": "id",
-      "_source": {
-        "foo": "rab"
-      }
-    }
-  ]
-}
-~~~
-
-
-#### Answer
-~~~JSON
-POST teste/_doc/1?pipeline=reconcile_fields
-{
-  "NOC": "ARG",
-  "Sex": "M",
-  "City": "Los Angeles",
-  "Weight": "98",
-  "Name": "Ernesto Arturo Alas",
-  "Sport": "Shooting",
-  "Games": "1984 Summer",
-  "Event": "Shooting Men's Free Pistol, 50 metres",
-  "Height": "186",
-  "Team": "Argentina",
-  "ID": 2224,
-  "Medal": "NA",
-  "Age": "54"
-}
-~~~
-
-### Exercise 17
-
-#### Question
-Delete the `olympic-events-fixed` index.
-
-#### Answer
-~~~JSON
-DELETE olympic-events-fixed
-~~~
-
-
-### Exercise 18
-
-#### Question
-Reindex the data in the `olympic-events` index into a new `olympic-events-fixed` index using the `reconcile_fields` pipeline. If Elasticsearch throws any exceptions, you may have missed a field in your pipeline.
-
-#### Answer
-~~~JSON
-POST _reindex
-{
-  "source": {
-    "index": "olympic-events"
-  },
-  "dest": {
-    "index": "olympic-events-fixed",
-    "pipeline": "reconcile_fields"
-  }
-}
-~~~
-
-
-## [Part 03](https://georgebridgeman.com/exercises/olympic-data/olympics-03/)
-
-### Exercise 19
-
-#### Question
-Write a single query to find the name of all Gymnastics events. There are less than 100 Gymnastics event types.
-
-#### Answer
-~~~JSON
-GET olympic-events-fixed/_search
-{
-  "aggs": {
-    "events": {
-      "terms": {
-        "field": "event.keyword",
-        "size": 10000
-      }
-    }
-  }, 
-  "query": {
-    "match": {
-      "sport": "Gymnastics"
-    }
-  },
-  "size": 0
-}
-~~~
-
-### Exercise 20
-
-#### Question
-Write a single query to find the average weight for male and female competitors in Gymnastics events.
-
-#### Answer
-~~~JSON
-GET olympic-events-fixed/_search
-{
-  "aggs": {
-    "gender": {
-      "terms": {
-        "field": "gender",
-        "size": 20
-      },
-      "aggs": {
-        "avg_weight": {
-          "avg": {
-            "field": "weight"
-          }
-        }
-      }
-    }
-  }, 
-  "query": {
-    "match": {
-      "sport": "Gymnastics"
-    }
-  },
-  "size": 0
-}
-~~~
-
-### Exercise 21
-
-#### Question
-Write a single query to find the year that each of the 590 unique events first appeared in the Olympic Games, and which events were introduced most recently.
-
-#### Hint
-Use [bucket sort](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/search-aggregations-pipeline-bucket-sort-aggregation.html) to sort aggs by year
-
-#### Answer
-~~~JSON
-GET olympic-events-fixed/_search
-{
-  "aggs": {
-    "event": {
-      "terms": {
-        "field": "event.keyword",
-        "size": 1000
-      },
-      "aggs": {
-        "first_year": {
-          "min": {
-            "field": "year"
-          }
-        },
-        "sorted": {
-          "bucket_sort": {
-            "sort": [
-              {
-                "first_year": { "order": "desc" }
-              }
-            ]
-          }
-        }
-      }
-    }
-  }, 
-  "size": 0
-}
-~~~
-
-
-### Exercise 22
-
-#### Question
-Write a query to return only the following fields for the 50 tallest athletes in the 2016 Rio de Janeiro Games:
-
--   athleteName
--   team
--   sport
--   age
--   height
--   weight
--   gender
-
-#### Hint
-Use the "\_source" key to define which values should be returned
-
-#### Answer
-~~~JSON
-GET olympic-events-fixed/_search
-{
-  "_source": ["athleteName", "team", "sport", "age", "height", "weight", "gender"], 
-  "size": 50,
-  "query": {
-    "match": {
-      "city.keyword": "Rio de Janeiro"
-    }
-  },
-  "sort": [
-    {
-      "height": {
-        "order": "desc"
-      }
-    }
-  ]
-}
-~~~
-
-
-### Exercise 23
-
-#### Question
-The weight and height fields are in metric. Weight is in `kg` and height is in `cm`. Add a scripted field called `weightLbs` to the previous query to return the weight in lbs. The formula for this is: `Weight * 2.2`
-
-
-#### Hint
-- The "script_fields" key can be used to add fields to each document on runtime
-- With painless query scripting, use the "doc\['FIELD'\].value" to access values
-
-#### Answer
-~~~JSON
-GET olympic-events-fixed/_search
-{
-  "_source": ["athleteName", "team", "sport", "age", "height", "weight", "gender"], 
-  "size": 50,
-  "query": {
-    "match": {
-      "city.keyword": "Rio de Janeiro"
-    }
-  },
-  "sort": [
-    {
-      "height": {
-        "order": "desc"
-      }
-    }
-  ],
-  "script_fields": {
-    "weightLbs": {
-      "script": {
-        "lang": "painless",
-        "source": "doc['weight'].value * 2.2"
-      }
-    }
-  }
-}
-~~~
-
-
-### Exercise 24
-
-#### Question
-Add a scripted field called `bmi` to the previous query to return the BMI for each athlete, calculated using the following formula: `Weight / (Height in m squared)`
-
-#### Hint
-Parentheses can be used to execute math in the correct order
-
-#### Answer
-~~~JSON
-GET olympic-events-fixed/_search
-{
-  "_source": ["athleteName", "team", "sport", "age", "height", "weight", "gender"], 
-  "size": 50,
-  "query": {
-    "match": {
-      "city.keyword": "Rio de Janeiro"
-    }
-  },
-  "sort": [
-    {
-      "height": {
-        "order": "desc"
-      }
-    }
-  ],
-  "script_fields": {
-    "weightLbs": {
-      "script": {
-        "lang": "painless",
-        "source": "doc['weight'].value * 2.2"
-      }
-    },
-    "bmi": {
-      "script": {
-        "lang": "painless",
-        "source": "doc['weight'].value / ((doc['height'].value / 100) * (doc['height'].value / 100))"
-      }
-    }
-  }
-}
-~~~
-
-
-## [Part 04](https://georgebridgeman.com/exercises/olympic-data/olympics-04/)
-
-### Exercise 25
-
-#### Question
-Write a query to return the first 50 documents for gold medal athletics events, in descending age order.
-
-
-#### Answer
-~~~JSON
-GET olympic-events-fixed/_search
-{
-  "query": {
-    "match": {
-      "medal": "Gold"
-    }
-  },
-  "size": 50,
-  "sort": [
-    {
-      "age": {
-        "order": "desc"
-      }
-    }
-  ]
-}
-~~~
-
-### Exercise 26
-
-#### Question
-Write a query to match swimming events where either:
-
--   The athlete’s weight was between 60kg and 70kg
--   The athlete’s age was less than 20
-
-Enhance the query so the results identify whether the weight, age, or both matched the search criteria.
-
-#### Hint
-[Como dar enhance??](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/search-request-body.html#request-body-search-highlighting)
-
-
-#### Answer
-~~~JSON
-GET olympic-events-fixed/_search
-{
-  "query": {
-    "bool": {
-      "should": [
-        {
-          "range": {
-            "age": {
-              "lt": 20
-            }
-          }
-        },
-        {
-          "range": {
-            "weight": {
-              "gte": 60,
-              "lt": 70
-            }
-          }
-        }
-      ],
-      "minimum_should_match": 1
-    }
-  }
-}
-~~~
-
-### Exercise 28
-
-#### Question
-Change the number of replica shards for the `olympic-noc-regions` index to be 0. The index should then be green and contain 230 documents.
-
-#### Answer
-~~~JSON
-PUT olympic-noc-regions/_settings
-{
-  "number_of_replicas": 0
-}
-~~~
-
-### Exercise 29
-
-#### Question
-Create an enrich policy and ingest pipeline that uses the `enrich` processor to add details of the National Olympic Committee to each document in the `olympic-events-fixed` index. Call the policy `olympic-noc-append` and the pipeline `enrich-noc`. Add details of the matching NOC entry to a new field called `nocDetails`, matching on the `noc` field.
-
-#### Hint
-If your pipeline does not find the enrich policy, maybe you forgot to execute such policy.
-
-#### Answer
-##### Enrich Policy
-~~~JSON
-PUT /_enrich/policy/olympic-noc-append
-{
-  "match": {
-    "indices": "olympic-noc-regions",
-    "match_field": "noc",
-    "enrich_fields": ["notes", "region"]
-  }
-}
-
-POST _enrich/policy/olympic-noc-append/_execute
-~~~
-
-##### Pipeline
-~~~JSON
-PUT _ingest/pipeline/enrich-noc
-{
-  "processors": [
-    {
-      "enrich": {
-        "field": "noc",
-        "policy_name": "olympic-noc-append",
-        "target_field": "nocDetails"
-      }
-    }
-  ]
-}
-~~~
-
-### Exercise 30
-
-#### Question
-Create a new index called `olympic-events-enriched`, into which we can reindex the Olympic events but with some enriched fields. Change the mapping settings for the new index so we can add fields dynamically.
-
-#### Answer
-~~~JSON
-PUT olympic-events-enriched
-{
-  "mappings": {
-    "dynamic": true,
-  }
-}
-~~~
-
-
-### Exercise 31
-
-#### Question
-Reindex the `olympic-events-fixed` index into `olympic-events-enriched`, running it through the `enrich-noc` ingest pipeline. Once complete, verify the new field was added to the `olympic-events-fixed` index, and populated with details of the associated NOC.
-
-#### Answer
-~~~JSON
-POST _reindex
-{
-  "source": {
-    "index": "olympic-events-fixed"
-  },
-  "dest": {
-    "index": "olympic-events-enriched",
-    "pipeline": "enrich-noc"
-  }
-}
-~~~
-
-
-
-
-
-
-# Exam
-### Task 2
-~~~JSON
-GET blogs/_search
-{
-  "aggs": {
-    "calendar_year": {
-      "date_histogram": {
-        "field": "publish_date",
-        "calendar_interval": "year"
-      },
-      "aggs": {
-        "nr_authors": {
-          "cardinality": {
-            "field": "authors.uid.keyword"
-          }
-        }
-      }
-    }
-  },
-  "size": 0,
-  "query": {
-    "match_phrase": {
-      "content": "open source"
-    }
-  }
-}
-~~~
-
-### Task 3
-
-#### Answer
-
-##### Atualiza mapping
-~~~JSON
-PUT task3
-{
-  "settings": {
-    "number_of_replicas": 0,
-    "number_of_shards": 1,
-    "analysis": {
-      "analyzer": {
-        "content_analyzer": {
-          "filter": "lowercase",
-          "char_filter": "html_strip",
-          "tokenizer": "standard"
-        }
-      }
-    }
-  },
-  "mappings": {
-    "properties": {
-      "@timestamp": {
-        "type": "date"
-      },
-      "authors": {
-        "properties": {
-          "company": {
-            "type": "keyword"
-          },
-          "first_name": {
-            "type": "keyword"
-          },
-          "full_name": {
-            "type": "text",
-            "analyzer": "standard"
-          },
-          "job_title": {
-            "type": "keyword"
-          },
-          "last_name": {
-            "type": "keyword"
-          },
-          "uid": {
-            "type": "keyword"
-          }
-        }
-      },
-      "category": {
-        "type": "keyword"
-      },
-      "content": {
-        "type": "text",
-        "fields": {
-          "eng": {
-            "type": "text",
-            "analyzer": "english"
-          }
-        }
-      },
-      "locale": {
-        "type": "keyword"
-      },
-      "publish_date": {
-        "type": "date",
-        "format": "iso8601"
-      },
-      "tags": {
-        "properties": {
-          "elastic_stack": {
-            "type": "keyword"
-          },
-          "level": {
-            "type": "keyword"
-          },
-          "product": {
-            "type": "keyword"
-          },
-          "topic": {
-            "type": "keyword",
-            "fields": {
-              "keyword": {
-                "type": "keyword",
-                "ignore_above": 256
-              }
-            }
-          },
-          "use_case": {
-            "type": "keyword"
-          },
-          "use_cases": {
-            "type": "keyword"
-          }
-        }
-      },
-      "title": {
-        "type": "text",
-        "analyzer": "standard",
-        "fields": {
-          "search": {
-            "type": "search_as_you_type"
-          }
-        }
-      },
-      "url": {
-        "type": "keyword"
-      }
-    }
-  }
-}
-~~~
-
-##### Reindex
-~~~JSON
-POST _reindex
-{
-  "source": {
-    "index": "blogs"
-  },
-  "dest": {
-    "index": "task3"
-  }
-}
-~~~
-
-### Task 4
-#### Answer
-
-##### Atualiza Mapping
-~~~JSON
-PUT task4
-{
-  "settings": {
-    "number_of_shards": 6,
-    "number_of_replicas": 0
-  },
-  "mappings": {
-    "properties": {
-      "@timestamp": {
-        "type": "date"
-      },
-      "bytes_sent": {
-        "type": "long"
-      },
-      "content_type": {
-        "type": "keyword"
-      },
-      "geo.location": {
-        "type": "geo_point"
-      },
-      "request": {
-        "type": "keyword"
-      },
-      "response": {
-        "type": "keyword"
-      },
-      "runtime_ms": {
-        "type": "long"
-      },
-      "verb": {
-        "type": "keyword"
-      }
-    }
-  }
-}
-~~~
-
-##### Pipeline
-~~~JSON
-[
-      {
-        "remove" : {
-          "field" : "is_https"
-        }
-      },
-      {
-        "rename" : {
-          "field" : "geoip_location_lat",
-          "target_field" : "geo.location.lat"
-        }
-      },
-      {
-        "rename" : {
-          "field" : "geoip_location_lon",
-          "target_field" : "geo.location.lon"
-        }
-      },
-      {
-        "user_agent" : {
-          "field" : "user_Agent"
-        }
-      },
-      {
-        "remove" : {
-          "field" : "user_Agent"
-        }
-      }
-    ]
-~~~
-
-##### Reindex
-~~~JSON
-POST _reindex
-{
-  "source": {
-    "index": "web_traffic"
-  },
-  "dest": {
-    "index": "task4",
-    "pipeline": "task4"
-  }
-}
-~~~
-
-
-### Task 5
-
-#### Answer
-##### Atualiza Mapping
-~~~JSON
-PUT task5
-{
-  "settings": {
-    "number_of_replicas": 0,
-    "number_of_shards": 1
-  },
-  "mappings": {
-    "properties": {
-      "@timestamp": {
-        "type": "date"
-      },
-      "authors": {
-        "type": "nested"
-      },
-      "category": {
-        "type": "keyword"
-      },
-      "content": {
-        "type": "text"
-      },
-      "locale": {
-        "type": "keyword"
-      },
-      "publish_date": {
-        "type": "date",
-        "format": "iso8601"
-      },
-      "tags": {
-        "properties": {
-          "elastic_stack": {
-            "type": "text",
-            "fields": {
-              "keyword": {
-                "type": "keyword",
-                "ignore_above": 256
-              }
-            }
-          },
-          "level": {
-            "type": "text",
-            "fields": {
-              "keyword": {
-                "type": "keyword",
-                "ignore_above": 256
-              }
-            }
-          },
-          "product": {
-            "type": "text",
-            "fields": {
-              "keyword": {
-                "type": "keyword",
-                "ignore_above": 256
-              }
-            }
-          },
-          "topic": {
-            "type": "text",
-            "fields": {
-              "keyword": {
-                "type": "keyword",
-                "ignore_above": 256
-              }
-            }
-          },
-          "use_case": {
-            "type": "text",
-            "fields": {
-              "keyword": {
-                "type": "keyword",
-                "ignore_above": 256
-              }
-            }
-          },
-          "use_cases": {
-            "type": "text",
-            "fields": {
-              "keyword": {
-                "type": "keyword",
-                "ignore_above": 256
-              }
-            }
-          }
-        }
-      },
-      "title": {
-        "type": "text"
-      },
-      "url": {
-        "type": "keyword"
-      }
-    }
-  }
-}
-~~~
-
-##### Reindex
-~~~JSON
-POST _reindex
-{
-  "source": {
-    "index": "blogs"
-  },
-  "dest": {
-    "index": "task5"
-  }
-}
-~~~
-
-##### Search
-~~~JSON
-GET task5/_search
-{
-  "query": {
-    "nested": {
-      "path": "authors",
-      "query": {
-        "bool": {
-          "must": [
-            {
-              "match": {
-                "authors.first_name": "david"
-              }
-            },
-            {
-              "match": {
-                "authors.job_title": "engineer"
-              }
-            }
-          ]
-        }
-      }
-    }
-  }
-}
-~~~
-
-
-### Task 6
-
-#### Answer
-
-##### Enrich Policy
-~~~JSON
-PUT _enrich/policy/enrich_blogs
-{
-  "match": {
-    "indices": "categories",
-    "match_field": "uid",
-    "enrich_fields": ["title"]
-  }
-}
-POST /_enrich/policy/enrich_blogs/_execute
-~~~
-
-
-##### Pipeline
-~~~JSON
-PUT _ingest/pipeline/task6
-[
-      {
-        "enrich" : {
-          "field" : "category",
-          "policy_name" : "enrich_blogs",
-          "target_field" : "categories"
-        }
-      },
-      {
-        "remove" : {
-          "field" : "category"
-        }
-      }
-    ]
-~~~
-
-##### Reindex
-~~~JSON
-POST _reindex
-{
-  "source": {
-    "index": "blogs"
-  },
-  "dest": {
-    "index": "task6",
-    "pipeline": "task6"
-  }
-}
-~~~
-
-
-### Task 8
-
-#### Answer
-
-##### Lifecycle policy
-~~~JSON
-PUT _ilm/policy/my.metrics-system-dev-policy
-{
-  "policy": {
-    "phases": {
-      "hot": {
-        "min_age": "0ms",
-        "actions": {
-          "rollover": {
-            "max_age": "2m"
-          },
-          "set_priority": {
-            "priority": 100
-          }
-        }
-      },
-      "warm": {
-        "min_age": "2m",
-        "actions": {
-          "readonly": {},
-          "set_priority": {
-            "priority": 50
-          }
-        }
-      },
-      "cold": {
-        "min_age": "5m",
-        "actions": {
-          "set_priority": {
-            "priority": 0
-          }
-        }
-      }
-    }
-  }
-}
-~~~
-
-
-##### Index Template
-~~~JSON
-PUT _index_template/my.metrics-system-dev
-{
-  "template": {
-    "settings": {
-      "index": {
-        "lifecycle": {
-          "name": "my.metrics-system-dev-policy"
-        },
-        "number_of_shards": "1",
-        "number_of_replicas": "0"
-      }
-    }
-  },
-  "index_patterns": [
-    "my.metrics-system-dev*"
-  ],
-  "data_stream": {
-    "hidden": false
-  },
-  "composed_of": [
-    "metrics-mappings"
-  ]
-}
-~~~
-
-##### Start the stream
-~~~JSON
-PUT _data_stream/my.metrics-system-dev
-~~~
-
-#### Extra
-##### Force data stream rollover
-~~~JSON
-POST /my.metrics-system-dev/_rollover/
-~~~
-
-##### Get data stream stats
-~~~JSON
-GET /_data_stream/my.metrics-system-dev/_stats?human=true
-~~~
-
-### Task 9
-
-#### Answer
-##### Create Snap Repo
-~~~JSON
-PUT /_snapshot/snap-repo
-{
-  "type": "fs",
-  "settings": {
-    "location": "/var/tmp/repo/search"
-  }
-}
-~~~
-
-
-### Task 10
-#### Hint
-When the word "boost" is mentioned, look for "highlight" on the docs.
-
-#### Answer
-Not working
-~~~JSON
-GET blogs/_search
-{
-  "query": {
-    "bool": {
-      "filter": [
-        {
-          "range": {
-            "publish_date": {
-              "gte": "now-2y/y"
-            }
-          }
-        }
-      ]
-    },
-    "boosting": {
-      "negative_boost": 0.2, 
-      "positive": {
-        "match_phrase": {
-          "content": "certified engineer"
-        }
-      },
-      "negative": {
-        "match": {
-          "content": "certified engineer"
-        }
-      }
-    }
-  },
-  "sort": [
-    {
-      "_score": {
-        "order": "desc"
-      }
-    },
-    {
-      "_doc": {
-        "order": "asc"
-      }
-    }
-  ]
-}
-~~~
-
-# Material
-
-## Lab 2.2: Searching with the Query DSL
-
-### Task 8
-~~~JSON
-GET blogs/_search
-{
-  "query": {
-    "multi_match": {
-      "query": "certified engineer",
-      "fields": ["title", "content"]
-    }
-  },
-  "highlight": {
-    "fields": {
-      "content": {}
-    }
-  }
-}
-~~~
-
-### Task 9
-~~~JSON
-GET blogs/_search
-{
-  "query": {
-    "bool": {
-      "should": [
-        {
-          "match_phrase": {
-            "title": "certified engineer"
-          }
-        },
-        {
-          "match_phrase": {
-            "title": "certified engineer"
-          }
-        }
-      ] 
-    }
-  }
-}
-~~~
-
-### Task 10
-~~~JSON
-GET blogs/_search
-{
-  "query": {
-    "bool": {
-      "must": [
-        {
-          "fuzzy": {
-            "content": {
-              "value": "certified engineer",
-              "fuzziness": "5"
-            }
-          }
-        },
-        {
-          "fuzzy": {
-            "title": {
-              "value": "certified engineer",
-              "fuzziness": "5"
-            }
-          }
-        }
-      ]
-    }
-  }
-}
-~~~
-
-### Task 11
-~~~JSON
-GET blogs/_search
-{
-  "query": {
-    "bool": {
-      "should": [
-        {
-          "match": {
-            "title": "meetups"
-          }
-        },
-        {
-          "match": {
-            "content": "meetups"
-          }
-        }
-      ],
-      "minimum_should_match": 1,
-      "filter": [
-        {
-          "range": {
-            "FIELD": {
-              "lte": "now-1y/y"
-            }
-          }
-        }
-      ]
-    }
-  }
-}
-~~~
-
-## Lab 2.3: Aggregations
-
-### Task 12
-~~~JSON
-GET blogs/_search
-{
-  "size": 0,
-  "aggs": {
-    "qtd": {
-      "cardinality": {
-        "field": "authors.uid.keyword"
-      }
-    }
-  }
-}
-~~~
-
-### Task 13
-~~~JSON
-GET blogs/_search
-{
-  "aggs": {
-    "use_case": {
-      "terms": {
-        "field": "tags.use_case.keyword",
-        "size": 1000
-      }
-    }
-  },
-  "query": {
-    "bool": {
-      "must": {
-        "multi_match": {
-          "query": "open source",
-          "fields": [
-            "title^2",
-            "content"
-          ],
-          "type": "phrase"
-        }
-      }
-    }
-  }
-}
-~~~
-
-### Task 14
-~~~JSON
-GET blogs/_search
-{
-  "aggs": {
-    "authors": {
-      "terms": {
-        "field": "authors.uid.keyword",
-        "size": 10
-      }
-    }
-  }, 
-  "size": 0
-}
-~~~
-
-### Task 15
-~~~JSON
-GET blogs/_search
-{
-  "aggs": {
-    "calendar_year": {
-      "date_histogram": {
-        "field": "publish_date",
-        "interval": "year"
-      },
-      "aggs": {
-        "use_case": {
-          "terms": {
-            "field": "tags.use_case.keyword",
-            "size": 100
-          },
-          "aggs": {
-            "author": {
-              "terms": {
-                "field": "authors.full_name.keyword",
-                "size": 1
-              }
-            }
-          }
-        }
-      }
-    }
-  }, 
-  "size": 0
-}
-~~~
-
-
-## Lab 3.1: Overview of Mappings
-
-### Task 8
-
-##### Update mapping
-~~~JSON
-PUT blogs_fixed/
-{
-  "mappings": {
-    "properties": {
-      "authors": {
-        "properties": {
-          "first_name": {
-            "type": "keyword"
-          },
-          "full_name": {
-            "type": "text"
-          }
-        }
-      },
-      "tags": {
-        "properties": {
-          "elastic_stack": {
-            "type": "keyword"
-          },
-          "industry": {
-            "type": "keyword"
-          },
-          "level": {
-            "type": "keyword"
-          },
-          "product": {
-            "type": "keyword"
-          },
-          "tags": {
-            "type": "keyword"
-          },
-          "topic": {
-            "type": "keyword"
-          },
-          "use_case": {
-            "type": "keyword"
-          },
-          "use_cases": {
-            "type": "keyword"
-          }
-        }
-      }
-    }
-  }
-}
-~~~
-
-##### Update \_meta field
-~~~JSON
-PUT blogs_fixed/_mapping
-{
-  "_meta": {
-    "created_by": "Lucas Eduardo Hoeltgebaum"
-  }
-}
-~~~
-
-### Task 10
-~~~JSON
-POST _reindex
-{
-  "source": {
-    "index": "blogs"
-  },
-  "dest": {
-    "index": "blogs_fixed"
-  }
-}
-
-~~~
-
-
-
-# To Study
-Paginação
-From
-Highlight
-
-## [Analyzer](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/analysis-analyzers.html)
-Placa
-[HTML Strip](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/analysis-htmlstrip-charfilter.html)
+```
+
+## Desafio 10 (Pipeline)
+### Notice how the `Games` field contains both the Olympic year and season. Create an ingest pipeline called `split_games` that will split this field into two new fields - `year` and `season` - and remove the original `Games` field.
+#### Para criar um pipeline devemos pesquisar por: ![[Pasted image 20221017163210.png]]
+#### Logo após devemos criar um novo pipeline:
+![[Pasted image 20221017163304.png]]
+#### Neste momento devemos colocar o nome e a descrição do pipeline:
+![[Pasted image 20221017163509.png]]
+#### Com isso vamos iniciar a "lógica" por trás do pipeline. Clique no "Add a processor":
+![[Pasted image 20221017163838.png]]
+#### Para esse exercício, iremos usar o split já que ele pede para que a gente separe o ano e a estação em fields diferentes. Para isso precisamos criar uma lista onde o split será no espaço, assim como no python:
+``` PYTHON
+texto = "1984 Primavera"
+texto.split(" ")
+# ['1984', 'Primavera']
+```
+#### Então devemos selecionar o "Processor" split:
+![[Pasted image 20221017164707.png]]
+#### Ao seleciona-lo teremos diversas opções, iremos marcar apenas o "Field" e o "Separator". No Field iremos colocar o nome do field que queremos alterar, no caso desse exercício devemos colocar "Games" e o separador será pelo espaço " ", porém se você tentar deixar apenas espaço irá dar erro, para isso devemos usar o "\\s+" sem as aspas. Após preencher é só clicar em add/update:
+![[Pasted image 20221017165808.png]]
+
+#### Após isso iremos para outro processo que é o de settar os novos fields. Para isso devemos clicar em "Add a processor":
+![[Pasted image 20221017170031.png]]
+#### Após isso devemos selecionar o processor "Set". Com isso irá aparecer novamente os campos "Field" e  "Value". No campo Field iremos escolher um novo nome, nesse caso será "Year" pois é o que o exercicio pede. No campo "Value" iremos colocar a seguinte expressão "{{Games.0}}" sem as aspas logo após é só clicar em add/update. A configuração irá ficar assim:
+![[Pasted image 20221017170749.png]]
+#### Para criar o field "Season" é só repetir o processo porém alterar a chave de acesso da lista(No value) e o nome do Field. Logo após é só clicar em add/update. Irá ficar assim:
+![[Pasted image 20221017170803.png]]
+#### O próximo passo do exercício é excluir o field "Games". Para isso iremos repetir o processo de adicionar um processor e a opção dele será Remove. Neste caso só iremos marcar o field que queremos remover("Games").  Logo após é só clicar em add/update. Irá ficar assim:
+![[Pasted image 20221017171126.png]]
+#### Pronto, agora que finalizamos o pipeline vamos retornar ao Dev Tools. Para rodar esse pipeline é bem simples precisamos apenas colocar a seguinte query:
+``` JSON
+POST olympic-events/_update_by_query?pipeline=nome_do_pipeline
+```
+#### E pronto, finalizamos o desafio.

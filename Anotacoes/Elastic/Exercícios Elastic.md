@@ -322,7 +322,7 @@ POST olympic-events/_delete_by_query
 }
 ```
 
-## Desafio 10 (Pipeline)
+## Desafio 10 e 11 (Pipeline)
 ### Notice how the `Games` field contains both the Olympic year and season. Create an ingest pipeline called `split_games` that will split this field into two new fields - `year` and `season` - and remove the original `Games` field.
 #### Para criar um pipeline devemos pesquisar por: ![[Pasted image 20221017163210.png]]
 #### Logo após devemos criar um novo pipeline:
@@ -355,3 +355,96 @@ texto.split(" ")
 POST olympic-events/_update_by_query?pipeline=nome_do_pipeline
 ```
 #### E pronto, finalizamos o desafio.
+
+## Desafio 12 (Criar novo index)
+### We’ll now start to clean up the mappings. Create a new index called `olympic-events-fixed` with 1 shard, 0 replicas, and the following mapping:
+| Field       | Type           |
+| ----------- | -------------- |
+| athleteId   | integer        |
+| age         | short          |
+| height      | shor           |
+| weight      | short          |
+| athleteName | text + keyword |
+| gender      | keyword        |
+| team        | keyword        |
+| noc         | keyword        |
+| year        | short          |
+| season      | keyword        |
+| city        | text + keyword |
+| sport       | keyword        |
+| event       | text + keyword |
+| medal       | keyword        |
+#### O desafio pede para criarmos um novo index com determinada configuração e determinados campos. Para isso precisamos usar o seguinte PUT.
+``` JSON
+ PUT olympic-events-fixed
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0
+    }
+  },
+  "mappings": {
+    "properties": {
+      "athleteId": {
+        "type": "integer"
+      },
+      "age": {
+        "type": "short"
+      },
+      "height": {
+        "type": "short"
+      },
+      "weight": {
+        "type": "short"
+      },
+      "athleteName": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "gender": {
+        "type": "keyword"
+      },
+      "team": {
+        "type": "keyword"
+      },
+      "noc": {
+        "type": "keyword"
+      },
+      "year":{
+        "type": "short"
+      },
+      "season":{
+        "type": "keyword"
+      },
+      "city": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "sport":{
+        "type": "keyword"
+      },
+      "event": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "medal":{
+        "type": "keyword"
+      }
+    }
+  }
+}
+```
+## Desafio 13

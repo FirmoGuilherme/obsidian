@@ -27,7 +27,7 @@
 # Amazon Simple Storage Service (S3)
 ## Dimensionamento infinito, maior análise e recuperação de dados mais rápida
 ## Para cada dez milhões de objetos armazenados pode-se esperar uma perda média de UM objeto a cada 10 MIL anos
-## Casis de uso comuns do S3:
+## Casos de uso comuns do S3:
 ### Data lakes;
 ### Bakcup e armazenamento;
 ### Hospedagem de Aplicativos;

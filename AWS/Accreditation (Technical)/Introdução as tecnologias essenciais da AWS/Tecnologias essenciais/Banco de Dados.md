@@ -1,5 +1,5 @@
 # Serviços de banco de dados
-## Amazon RDS
+## Amazon RDS (Relational Database Service)
 ### Capacidade econômica e reminesionável;
 ### Banco de dados relacional;
 ### Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle Database e SQL Server;

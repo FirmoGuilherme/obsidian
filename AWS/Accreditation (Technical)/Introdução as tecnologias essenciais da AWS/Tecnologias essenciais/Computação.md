@@ -3,13 +3,13 @@
 ### Elasticidade, Controle, Flexibilidade (Podem escolher tipos de instancias e SOs), Integrado (Variedade de Aplicativos), Confiável, Seguro, Econômico, Fácil.
 ### Ampla seleção de configurações de Hardware e Software otimazidos para qualquer tipo de cliente.
 
-## Amazon EC2 Auto Scalig (Aumente ou reduza npumero de instâncias)
+## Amazon EC2 Auto Scalig (Aumente ou reduza numero de instâncias)
 ### Novas instâncias antes dos períodos de pico;
 ### Monitoramento para aumentar a quantidade de forma programática;
 ### Dimensionamento automático;
 ### Paga somente pelos recursos necessários e quando necessário (Exemplo da Loja no Natal);
 ### Nós decidimos onde o EC2 Auto Scaling implantará recursos;
-### Especificamos a Amazon [VPC](Redes) e sub-redes(No minimo duas redes em diferentes zonas de disponibilidade).
+### Especificamos a Amazon [VPC](Redes.md) e sub-redes(No minimo duas redes em diferentes zonas de disponibilidade).
 
 ## Elastic Load Balancing (Distribua o Tráfego de entrada)
 ### Distribui automaticamento o tráfego entre várias instâncias do EC2;

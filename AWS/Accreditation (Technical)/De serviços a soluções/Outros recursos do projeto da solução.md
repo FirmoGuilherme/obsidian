@@ -1,0 +1,3 @@
+# Benefícios dos casos de uso de clientes
+## [AWS Customer Success](https://aws.amazon.com/pt/solutions/case-studies/?customer-references-cards.sort-by=item.additionalFields.sortDate&customer-references-cards.sort-order=desc&awsf.content-type=*all&awsf.customer-references-location=*all&awsf.customer-references-segment=*all&awsf.customer-references-industry=*all&awsf.customer-references-use-case=*all&awsf.customer-references-tech-category=*all&awsf.customer-references-product=*all)
+## [AWS QuickStart](https://aws.amazon.com/pt/solutions/browse-all/?solutions-all.sort-by=item.additionalFields.sortDate&solutions-all.sort-order=desc&awsf.Content-Type=content-type%23quick-start&awsf.AWS-Product%20Category=*all)

@@ -30,3 +30,19 @@ IAM serve para gerenciar os usuários de nossa empresa que estão usando o AWS. 
 
 * MFA serve para termos mais segurança do que apenas um senha;
 * MFA -> Senha + dispositivo de segurança (Celular);
+
+# IAM - Roles
+* Não são usados por pessoas e sim pelos serviços da AWS
+* Roles comuns:
+	* EC2 Instance Roles
+	* Lambda Function Roles
+	* Roles for CloudFormation
+
+# IAM - Best Practices
+* Não usar o conta root, exceto para configurar as contas AWS;
+* Sempre criar um novo usuário para uma nova pessoa, nunca passar seus dados para ela
+* Criar grupos e permissões para esses grupos
+* Criar uma politica de senhas fortes
+* Usar sempre o MFA
+* Criar e usar as Roles para dar permissão aos serviços AWS
+* Usar chaves de acesso para CLI e SDK
